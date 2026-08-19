@@ -9,6 +9,7 @@ import {
   createSkillAction,
   deleteEducationAction,
   deleteExperienceAction,
+  deleteProjectAction,
   deleteSkillAction,
   updateResumeProfileAction,
 } from "./actions";
@@ -604,36 +605,51 @@ export default async function ResumePage({
       No projects added yet.
     </p>
   ) : (
-    <div>
-      {resume.projects.map((project) => (
-        <article key={project.id}>
-          <h3>{project.name}</h3>
+<div>
+  {resume.projects.map((project) => {
+    const deleteProject =
+      deleteProjectAction.bind(
+        null,
+        resume.id,
+        project.id
+      );
 
-          {project.description && (
-            <p>{project.description}</p>
-          )}
+    return (
+      <article key={project.id}>
+        <h3>{project.name}</h3>
 
-          {project.technologies && (
-            <p>
-              Technologies: {project.technologies}
-            </p>
-          )}
+        {project.description && (
+          <p>{project.description}</p>
+        )}
 
-          {project.url && (
-            <p>
-              <a
-                href={project.url}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Project Link
-              </a>
-            </p>
-          )}
-        </article>
-      ))}
-    </div>
-  )}
+        {project.technologies && (
+          <p>
+            Technologies: {project.technologies}
+          </p>
+        )}
+
+        {project.url && (
+          <p>
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Project Link
+            </a>
+          </p>
+        )}
+
+        <form action={deleteProject}>
+          <button type="submit">
+            Delete
+          </button>
+        </form>
+      </article>
+    );
+  })}
+</div>
+)}
 
   <h3>Add Project</h3>
 

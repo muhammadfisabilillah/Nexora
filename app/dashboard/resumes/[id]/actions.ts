@@ -464,3 +464,40 @@ export async function deleteSkillAction(
 
   redirect(`/dashboard/resumes/${resumeId}`);
 }
+
+export async function deleteProjectAction(
+  resumeId: string,
+  projectId: string
+) {
+  const user = await requireUser();
+
+  const resume = await prisma.resume.findFirst({
+    where: {
+      id: resumeId,
+      userId: user.id,
+    },
+  });
+
+  if (!resume) {
+    throw new Error("Resume not found.");
+  }
+
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      resumeId,
+    },
+  });
+
+  if (!project) {
+    throw new Error("Project not found.");
+  }
+
+  await prisma.project.delete({
+    where: {
+      id: projectId,
+    },
+  });
+
+  redirect(`/dashboard/resumes/${resumeId}`);
+}
