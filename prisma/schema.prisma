@@ -29,8 +29,12 @@ model Resume {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  profile ResumeProfile?
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profile     ResumeProfile?
+  experiences Experience[]
+  education   Education[]
+  skills      Skill[]
+  projects    Project[]
 
   @@index([userId])
 }
@@ -48,6 +52,70 @@ model ResumeProfile {
   updatedAt DateTime @updatedAt
 
   resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+}
+
+model Experience {
+  id          String    @id @default(cuid())
+  resumeId    String
+  company     String
+  position    String
+  location    String?
+  startDate   DateTime?
+  endDate     DateTime?
+  current     Boolean   @default(false)
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId])
+}
+
+model Education {
+  id           String    @id @default(cuid())
+  resumeId     String
+  institution  String
+  degree       String?
+  fieldOfStudy String?
+  location     String?
+  startDate    DateTime?
+  endDate      DateTime?
+  description  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId])
+}
+
+model Skill {
+  id        String   @id @default(cuid())
+  resumeId  String
+  name      String
+  level     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId])
+}
+
+model Project {
+  id           String   @id @default(cuid())
+  resumeId     String
+  name         String
+  description  String?
+  url          String?
+  technologies String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId])
 }
 
 model EmailVerification {
