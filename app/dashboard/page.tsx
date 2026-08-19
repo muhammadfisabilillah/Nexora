@@ -57,7 +57,7 @@ export default async function DashboardPage() {
         Create New Resume
       </Link>
     </div>
-  ) : (
+):(
     <div>
       {resumes.map((resume) => (
         <article key={resume.id}>

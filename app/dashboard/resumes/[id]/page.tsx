@@ -82,124 +82,165 @@ export default async function ResumePage({
     const createSkill =
   createSkillAction.bind(null, resume.id);
 
-  const createProject =
+const createProject =
   createProjectAction.bind(null, resume.id);
-  return (
-    <main>
-      <header>
-        <Link href="/dashboard">
-          ← Back to Dashboard
-        </Link>
-      </header>
 
-      <section>
-        <h1>{resume.title}</h1>
+return (
+  <main className="min-h-screen bg-gray-50">
+    <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+<header className="mb-8">
+  <Link
+    href="/dashboard"
+    className="inline-flex items-center text-sm font-medium text-gray-600 transition hover:text-gray-900"
+  >
+    ← Back to Dashboard
+  </Link>
+</header>
 
-        <p>
-          Target Position:{" "}
-          {resume.targetPosition ?? "Not specified"}
-        </p>
-      </section>
+<section className="mb-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
+  <div className="space-y-2">
+    <p className="text-sm font-medium text-gray-500">
+      Resume
+    </p>
 
-      <section>
-        <h2>Resume Profile</h2>
+    <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+      {resume.title}
+    </h1>
 
-        <form action={updateProfile}>
-          <div>
-            <label htmlFor="fullName">
-              Full Name
-            </label>
+    <p className="text-sm text-gray-600">
+      Target Position:{" "}
+      <span className="font-medium text-gray-900">
+        {resume.targetPosition ?? "Not specified"}
+      </span>
+    </p>
+  </div>
+</section>
 
-            <input
-              id="fullName"
-              name="fullName"
-              type="text"
-              defaultValue={
-                resume.profile?.fullName ?? ""
-              }
-              placeholder="e.g. Muhammad Fisabilillah"
-            />
-          </div>
+<section className="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
+  <h2 className="mb-6 text-2xl font-semibold tracking-tight text-gray-900">
+    Resume Profile
+  </h2>
 
-          <div>
-            <label htmlFor="headline">
-              Professional Headline
-            </label>
+  <form action={updateProfile}>
+<div className="space-y-2">
+  <label
+    htmlFor="fullName"
+    className="block text-sm font-medium text-gray-700"
+  >
+    Full Name
+  </label>
 
-            <input
-              id="headline"
-              name="headline"
-              type="text"
-              defaultValue={
-                resume.profile?.headline ?? ""
-              }
-              placeholder="e.g. Information Systems Student"
-            />
-          </div>
+  <input
+    id="fullName"
+    name="fullName"
+    type="text"
+    defaultValue={
+      resume.profile?.fullName ?? ""
+    }
+    placeholder="e.g. Muhammad Fisabilillah"
+    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-          <div>
-            <label htmlFor="phone">
-              Phone
-            </label>
+ <div className="space-y-2">
+  <label
+    htmlFor="headline"
+    className="block text-sm font-medium text-gray-700"
+  >
+    Professional Headline
+  </label>
 
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              defaultValue={
-                resume.profile?.phone ?? ""
-              }
-              placeholder="e.g. +62..."
-            />
-          </div>
+  <input
+    id="headline"
+    name="headline"
+    type="text"
+    defaultValue={
+      resume.profile?.headline ?? ""
+    }
+    placeholder="e.g. Information Systems Student"
+    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-          <div>
-            <label htmlFor="location">
-              Location
-            </label>
+ <div className="space-y-2">
+  <label
+    htmlFor="phone"
+    className="block text-sm font-medium text-gray-700"
+  >
+    Phone
+  </label>
 
-            <input
-              id="location"
-              name="location"
-              type="text"
-              defaultValue={
-                resume.profile?.location ?? ""
-              }
-              placeholder="e.g. Bandung, Indonesia"
-            />
-          </div>
+  <input
+    id="phone"
+    name="phone"
+    type="tel"
+    defaultValue={
+      resume.profile?.phone ?? ""
+    }
+    placeholder="e.g. +62..."
+    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-          <div>
-            <label htmlFor="website">
-              Website
-            </label>
+<div className="space-y-2">
+  <label
+    htmlFor="location"
+    className="block text-sm font-medium text-gray-700"
+  >
+    Location
+  </label>
 
-            <input
-              id="website"
-              name="website"
-              type="url"
-              defaultValue={
-                resume.profile?.website ?? ""
-              }
-              placeholder="https://..."
-            />
-          </div>
+  <input
+    id="location"
+    name="location"
+    type="text"
+    defaultValue={
+      resume.profile?.location ?? ""
+    }
+    placeholder="e.g. Bandung, Indonesia"
+    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-          <div>
-            <label htmlFor="summary">
-              Professional Summary
-            </label>
+<div className="space-y-2">
+  <label
+    htmlFor="website"
+    className="block text-sm font-medium text-gray-700"
+  >
+    Website
+  </label>
 
-            <textarea
-              id="summary"
-              name="summary"
-              rows={6}
-              defaultValue={
-                resume.profile?.summary ?? ""
-              }
-              placeholder="Write a short professional summary..."
-            />
-          </div>
+  <input
+    id="website"
+    name="website"
+    type="url"
+    defaultValue={
+      resume.profile?.website ?? ""
+    }
+    placeholder="https://..."
+    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
+
+<div className="space-y-2">
+  <label
+    htmlFor="summary"
+    className="block text-sm font-medium text-gray-700"
+  >
+    Professional Summary
+  </label>
+
+  <textarea
+    id="summary"
+    name="summary"
+    rows={6}
+    defaultValue={
+      resume.profile?.summary ?? ""
+    }
+    placeholder="Write a short professional summary..."
+    className="w-full resize-y rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
           <button type="submit">
             Save Profile
@@ -207,13 +248,15 @@ export default async function ResumePage({
         </form>
       </section>
 
-<section>
-  <h2>Experience</h2>
+<section className="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
+  <h2 className="mb-6 text-2xl font-semibold tracking-tight text-gray-900">
+    Experience
+  </h2>
 
-{resume.experiences.length === 0 ? (
-  <p>
-    No experience added yet.
-  </p>
+  {resume.experiences.length === 0 ? (
+    <p>
+      No experience added yet.
+    </p>
 ) : (
   <div>
     {resume.experiences.map((experience) => {
@@ -232,17 +275,22 @@ export default async function ResumePage({
       );
 
       return (
-        <article key={experience.id}>
-          <h3>{experience.position}</h3>
+        <article
+  key={experience.id}
+  className="mb-4 rounded-xl border border-gray-200 bg-gray-50 p-5 last:mb-0"
+>
+  <h3 className="text-lg font-semibold text-gray-900">
+    {experience.position}
+  </h3>
 
-          <p>
-            {experience.company}
-            {experience.location
-              ? ` — ${experience.location}`
-              : ""}
-          </p>
+<p className="mt-1 text-sm font-medium text-gray-700">
+  {experience.company}
+  {experience.location
+    ? ` — ${experience.location}`
+    : ""}
+</p>
 
-          <p>
+          <p className="mt-2 text-xs text-gray-500">
             {experience.startDate
               ? experience.startDate.toLocaleDateString()
               : "Start date not specified"}
@@ -254,11 +302,13 @@ export default async function ResumePage({
                 : "End date not specified"}
           </p>
 
-          {experience.description && (
-            <p>{experience.description}</p>
-          )}
+{experience.description && (
+  <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-gray-600">
+    {experience.description}
+  </p>
+)}
 
-          <h4>Edit Experience</h4>
+ <h4>Edit Experience</h4>
 
 <form action={updateExperience}>
   <div>
@@ -366,9 +416,12 @@ export default async function ResumePage({
     />
   </div>
 
-  <button type="submit">
-    Save Changes
-  </button>
+<button
+  type="submit"
+  className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300"
+>
+  Save Changes
+</button>
 </form>
 
           <form action={deleteExperience}>
@@ -1074,10 +1127,11 @@ const updateProject =
     <h2>AI Analysis</h2>
 
     <p>
-        AI-powered resume analysis will be
-        implemented here.
+      AI-powered resume analysis will be
+      implemented here.
     </p>
-    </section>
-    </main>
-    );
+  </section>
+  </div>
+</main>
+);
 }
