@@ -13,7 +13,6 @@ export default function VerifyForm() {
 
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
   const [countdown, setCountdown] = useState(RESEND_COOLDOWN);
@@ -54,8 +53,7 @@ export default function VerifyForm() {
       return;
     }
 
-    setSuccess(true);
-    setLoading(false);
+    window.location.href = "/login";
   }
 
   async function handleResend() {
@@ -86,15 +84,6 @@ export default function VerifyForm() {
     return `${minutes}:${remainingSeconds
       .toString()
       .padStart(2, "0")}`;
-  }
-
-  if (success) {
-    return (
-      <main>
-        <h1>Email verified</h1>
-        <p>Your Nexora account has been verified successfully.</p>
-      </main>
-    );
   }
 
   return (

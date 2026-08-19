@@ -31,6 +31,28 @@ export async function resendUserOtp({
     throw new Error("Email is already verified.");
   }
 
+  const existingVerification =
+    await prisma.emailVerification.findFirst({
+      where: {
+        userId: user.id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+  if (existingVerification) {
+    const cooldownMs = 2 * 60 * 1000;
+    const nextAllowedAt =
+      existingVerification.createdAt.getTime() + cooldownMs;
+
+    if (Date.now() < nextAllowedAt) {
+      throw new Error(
+        "Please wait before requesting a new verification code."
+      );
+    }
+  }
+
   const otp = generateOtp();
   const otpHash = await hashOtp(otp);
   const expiresAt = getOtpExpiry();
@@ -62,7 +84,8 @@ export async function resendUserOtp({
     });
 
     throw new Error(
-      result.error.message || "Failed to send verification email."
+      result.error.message ||
+        "Failed to send verification email."
     );
   }
 
