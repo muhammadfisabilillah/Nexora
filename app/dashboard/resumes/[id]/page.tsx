@@ -11,7 +11,11 @@ import {
   deleteExperienceAction,
   deleteProjectAction,
   deleteSkillAction,
+  updateEducationAction,
+  updateExperienceAction,
+  updateProjectAction,
   updateResumeProfileAction,
+  updateSkillAction,
 } from "./actions";
 
 type ResumePageProps = {
@@ -80,7 +84,6 @@ export default async function ResumePage({
 
   const createProject =
   createProjectAction.bind(null, resume.id);
-
   return (
     <main>
       <header>
@@ -221,6 +224,13 @@ export default async function ResumePage({
           experience.id
         );
 
+      const updateExperience =
+        updateExperienceAction.bind(
+          null,
+          resume.id,
+          experience.id
+      );
+
       return (
         <article key={experience.id}>
           <h3>{experience.position}</h3>
@@ -247,6 +257,119 @@ export default async function ResumePage({
           {experience.description && (
             <p>{experience.description}</p>
           )}
+
+          <h4>Edit Experience</h4>
+
+<form action={updateExperience}>
+  <div>
+    <label htmlFor={`company-${experience.id}`}>
+      Company
+    </label>
+
+    <input
+      id={`company-${experience.id}`}
+      name="company"
+      type="text"
+      defaultValue={experience.company}
+      required
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`position-${experience.id}`}>
+      Position
+    </label>
+
+    <input
+      id={`position-${experience.id}`}
+      name="position"
+      type="text"
+      defaultValue={experience.position}
+      required
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`location-${experience.id}`}>
+      Location
+    </label>
+
+    <input
+      id={`location-${experience.id}`}
+      name="location"
+      type="text"
+      defaultValue={experience.location ?? ""}
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`startDate-${experience.id}`}>
+      Start Date
+    </label>
+
+    <input
+      id={`startDate-${experience.id}`}
+      name="startDate"
+      type="date"
+      defaultValue={
+        experience.startDate
+          ? experience.startDate
+              .toISOString()
+              .slice(0, 10)
+          : ""
+      }
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`endDate-${experience.id}`}>
+      End Date
+    </label>
+
+    <input
+      id={`endDate-${experience.id}`}
+      name="endDate"
+      type="date"
+      defaultValue={
+        experience.endDate
+          ? experience.endDate
+              .toISOString()
+              .slice(0, 10)
+          : ""
+      }
+    />
+  </div>
+
+  <div>
+    <label>
+      <input
+        name="current"
+        type="checkbox"
+        defaultChecked={experience.current}
+      />
+      I currently work here
+    </label>
+  </div>
+
+  <div>
+    <label htmlFor={`description-${experience.id}`}>
+      Description
+    </label>
+
+    <textarea
+      id={`description-${experience.id}`}
+      name="description"
+      rows={6}
+      defaultValue={
+        experience.description ?? ""
+      }
+    />
+  </div>
+
+  <button type="submit">
+    Save Changes
+  </button>
+</form>
 
           <form action={deleteExperience}>
             <button type="submit">
@@ -373,6 +496,13 @@ export default async function ResumePage({
         education.id
       );
 
+   const updateEducation =
+  updateEducationAction.bind(
+    null,
+    resume.id,
+    education.id
+  );
+
     return (
       <article key={education.id}>
         <h3>{education.institution}</h3>
@@ -401,6 +531,122 @@ export default async function ResumePage({
         {education.description && (
           <p>{education.description}</p>
         )}
+
+        <h4>Edit Education</h4>
+
+<form action={updateEducation}>
+  <div>
+    <label htmlFor={`institution-${education.id}`}>
+      Institution
+    </label>
+
+    <input
+      id={`institution-${education.id}`}
+      name="institution"
+      type="text"
+      defaultValue={education.institution}
+      required
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`degree-${education.id}`}>
+      Degree
+    </label>
+
+    <input
+      id={`degree-${education.id}`}
+      name="degree"
+      type="text"
+      defaultValue={education.degree ?? ""}
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`fieldOfStudy-${education.id}`}>
+      Field of Study
+    </label>
+
+    <input
+      id={`fieldOfStudy-${education.id}`}
+      name="fieldOfStudy"
+      type="text"
+      defaultValue={
+        education.fieldOfStudy ?? ""
+      }
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`location-${education.id}`}>
+      Location
+    </label>
+
+    <input
+      id={`location-${education.id}`}
+      name="location"
+      type="text"
+      defaultValue={education.location ?? ""}
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`startDate-${education.id}`}>
+      Start Date
+    </label>
+
+    <input
+      id={`startDate-${education.id}`}
+      name="startDate"
+      type="date"
+      defaultValue={
+        education.startDate
+          ? education.startDate
+              .toISOString()
+              .slice(0, 10)
+          : ""
+      }
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`endDate-${education.id}`}>
+      End Date
+    </label>
+
+    <input
+      id={`endDate-${education.id}`}
+      name="endDate"
+      type="date"
+      defaultValue={
+        education.endDate
+          ? education.endDate
+              .toISOString()
+              .slice(0, 10)
+          : ""
+      }
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`description-${education.id}`}>
+      Description
+    </label>
+
+    <textarea
+      id={`description-${education.id}`}
+      name="description"
+      rows={6}
+      defaultValue={
+        education.description ?? ""
+      }
+    />
+  </div>
+
+  <button type="submit">
+    Save Changes
+  </button>
+</form>
 
         <form action={deleteEducation}>
           <button type="submit">
@@ -527,6 +773,12 @@ export default async function ResumePage({
         resume.id,
         skill.id
       );
+  const updateSkill =
+  updateSkillAction.bind(
+    null,
+    resume.id,
+    skill.id
+  );
 
     return (
       <article key={skill.id}>
@@ -537,6 +789,41 @@ export default async function ResumePage({
             Level: {skill.level}
           </p>
         )}
+    <h4>Edit Skill</h4>
+
+<form action={updateSkill}>
+  <div>
+    <label htmlFor={`skill-name-${skill.id}`}>
+      Skill Name
+    </label>
+
+    <input
+      id={`skill-name-${skill.id}`}
+      name="name"
+      type="text"
+      defaultValue={skill.name}
+      required
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`skill-level-${skill.id}`}>
+      Level
+    </label>
+
+    <input
+      id={`skill-level-${skill.id}`}
+      name="level"
+      type="text"
+      defaultValue={skill.level ?? ""}
+      placeholder="e.g. Beginner, Intermediate, Advanced"
+    />
+  </div>
+
+  <button type="submit">
+    Save Changes
+  </button>
+</form>
 
         <form action={deleteSkill}>
           <button type="submit">
@@ -614,6 +901,13 @@ export default async function ResumePage({
         project.id
       );
 
+const updateProject =
+  updateProjectAction.bind(
+    null,
+    resume.id,
+    project.id
+  );
+
     return (
       <article key={project.id}>
         <h3>{project.name}</h3>
@@ -639,6 +933,69 @@ export default async function ResumePage({
             </a>
           </p>
         )}
+
+        <h4>Edit Project</h4>
+
+<form action={updateProject}>
+  <div>
+    <label htmlFor={`project-name-${project.id}`}>
+      Project Name
+    </label>
+
+    <input
+      id={`project-name-${project.id}`}
+      name="name"
+      type="text"
+      defaultValue={project.name}
+      required
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`project-description-${project.id}`}>
+      Description
+    </label>
+
+    <textarea
+      id={`project-description-${project.id}`}
+      name="description"
+      rows={5}
+      defaultValue={project.description ?? ""}
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`project-url-${project.id}`}>
+      Project URL
+    </label>
+
+    <input
+      id={`project-url-${project.id}`}
+      name="url"
+      type="url"
+      defaultValue={project.url ?? ""}
+    />
+  </div>
+
+  <div>
+    <label htmlFor={`project-technologies-${project.id}`}>
+      Technologies
+    </label>
+
+    <input
+      id={`project-technologies-${project.id}`}
+      name="technologies"
+      type="text"
+      defaultValue={
+        project.technologies ?? ""
+      }
+    />
+  </div>
+
+  <button type="submit">
+    Save Changes
+  </button>
+</form>
 
         <form action={deleteProject}>
           <button type="submit">

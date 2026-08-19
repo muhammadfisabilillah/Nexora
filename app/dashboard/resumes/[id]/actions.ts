@@ -501,3 +501,332 @@ export async function deleteProjectAction(
 
   redirect(`/dashboard/resumes/${resumeId}`);
 }
+
+export async function updateExperienceAction(
+  resumeId: string,
+  experienceId: string,
+  formData: FormData
+) {
+  const user = await requireUser();
+
+  const resume = await prisma.resume.findFirst({
+    where: {
+      id: resumeId,
+      userId: user.id,
+    },
+  });
+
+  if (!resume) {
+    throw new Error("Resume not found.");
+  }
+
+  const experience = await prisma.experience.findFirst({
+    where: {
+      id: experienceId,
+      resumeId,
+    },
+  });
+
+  if (!experience) {
+    throw new Error("Experience not found.");
+  }
+
+  const company = formData.get("company");
+  const position = formData.get("position");
+  const location = formData.get("location");
+  const startDate = formData.get("startDate");
+  const endDate = formData.get("endDate");
+  const current = formData.get("current");
+  const description = formData.get("description");
+
+  if (
+    typeof company !== "string" ||
+    !company.trim()
+  ) {
+    throw new Error("Company is required.");
+  }
+
+  if (
+    typeof position !== "string" ||
+    !position.trim()
+  ) {
+    throw new Error("Position is required.");
+  }
+
+  const normalizedCompany = company.trim();
+  const normalizedPosition = position.trim();
+
+  const normalizedLocation =
+    typeof location === "string" && location.trim()
+      ? location.trim()
+      : null;
+
+  const normalizedStartDate =
+    typeof startDate === "string" && startDate
+      ? new Date(startDate)
+      : null;
+
+  const normalizedEndDate =
+    typeof endDate === "string" && endDate
+      ? new Date(endDate)
+      : null;
+
+  const normalizedCurrent =
+    current === "on";
+
+  const normalizedDescription =
+    typeof description === "string" &&
+    description.trim()
+      ? description.trim()
+      : null;
+
+  await prisma.experience.update({
+    where: {
+      id: experienceId,
+    },
+    data: {
+      company: normalizedCompany,
+      position: normalizedPosition,
+      location: normalizedLocation,
+      startDate: normalizedStartDate,
+      endDate: normalizedCurrent
+        ? null
+        : normalizedEndDate,
+      current: normalizedCurrent,
+      description: normalizedDescription,
+    },
+  });
+
+  redirect(`/dashboard/resumes/${resumeId}`);
+}
+
+export async function updateEducationAction(
+  resumeId: string,
+  educationId: string,
+  formData: FormData
+) {
+  const user = await requireUser();
+
+  const resume = await prisma.resume.findFirst({
+    where: {
+      id: resumeId,
+      userId: user.id,
+    },
+  });
+
+  if (!resume) {
+    throw new Error("Resume not found.");
+  }
+
+  const education = await prisma.education.findFirst({
+    where: {
+      id: educationId,
+      resumeId,
+    },
+  });
+
+  if (!education) {
+    throw new Error("Education not found.");
+  }
+
+  const institution = formData.get("institution");
+  const degree = formData.get("degree");
+  const fieldOfStudy = formData.get("fieldOfStudy");
+  const location = formData.get("location");
+  const startDate = formData.get("startDate");
+  const endDate = formData.get("endDate");
+  const description = formData.get("description");
+
+  if (
+    typeof institution !== "string" ||
+    !institution.trim()
+  ) {
+    throw new Error("Institution is required.");
+  }
+
+  const normalizedInstitution =
+    institution.trim();
+
+  const normalizedDegree =
+    typeof degree === "string" && degree.trim()
+      ? degree.trim()
+      : null;
+
+  const normalizedFieldOfStudy =
+    typeof fieldOfStudy === "string" &&
+    fieldOfStudy.trim()
+      ? fieldOfStudy.trim()
+      : null;
+
+  const normalizedLocation =
+    typeof location === "string" && location.trim()
+      ? location.trim()
+      : null;
+
+  const normalizedStartDate =
+    typeof startDate === "string" && startDate
+      ? new Date(startDate)
+      : null;
+
+  const normalizedEndDate =
+    typeof endDate === "string" && endDate
+      ? new Date(endDate)
+      : null;
+
+  const normalizedDescription =
+    typeof description === "string" &&
+    description.trim()
+      ? description.trim()
+      : null;
+
+  await prisma.education.update({
+    where: {
+      id: educationId,
+    },
+    data: {
+      institution: normalizedInstitution,
+      degree: normalizedDegree,
+      fieldOfStudy: normalizedFieldOfStudy,
+      location: normalizedLocation,
+      startDate: normalizedStartDate,
+      endDate: normalizedEndDate,
+      description: normalizedDescription,
+    },
+  });
+
+  redirect(`/dashboard/resumes/${resumeId}`);
+}
+
+export async function updateSkillAction(
+  resumeId: string,
+  skillId: string,
+  formData: FormData
+) {
+  const user = await requireUser();
+
+  const resume = await prisma.resume.findFirst({
+    where: {
+      id: resumeId,
+      userId: user.id,
+    },
+  });
+
+  if (!resume) {
+    throw new Error("Resume not found.");
+  }
+
+  const skill = await prisma.skill.findFirst({
+    where: {
+      id: skillId,
+      resumeId,
+    },
+  });
+
+  if (!skill) {
+    throw new Error("Skill not found.");
+  }
+
+  const name = formData.get("name");
+  const level = formData.get("level");
+
+  if (
+    typeof name !== "string" ||
+    !name.trim()
+  ) {
+    throw new Error("Skill name is required.");
+  }
+
+  const normalizedName = name.trim();
+
+  const normalizedLevel =
+    typeof level === "string" && level.trim()
+      ? level.trim()
+      : null;
+
+  await prisma.skill.update({
+    where: {
+      id: skillId,
+    },
+    data: {
+      name: normalizedName,
+      level: normalizedLevel,
+    },
+  });
+
+  redirect(`/dashboard/resumes/${resumeId}`);
+}
+
+export async function updateProjectAction(
+  resumeId: string,
+  projectId: string,
+  formData: FormData
+) {
+  const user = await requireUser();
+
+  const resume = await prisma.resume.findFirst({
+    where: {
+      id: resumeId,
+      userId: user.id,
+    },
+  });
+
+  if (!resume) {
+    throw new Error("Resume not found.");
+  }
+
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      resumeId,
+    },
+  });
+
+  if (!project) {
+    throw new Error("Project not found.");
+  }
+
+  const name = formData.get("name");
+  const description = formData.get("description");
+  const url = formData.get("url");
+  const technologies = formData.get("technologies");
+
+  if (
+    typeof name !== "string" ||
+    !name.trim()
+  ) {
+    throw new Error("Project name is required.");
+  }
+
+  const normalizedName = name.trim();
+
+  const normalizedDescription =
+    typeof description === "string" &&
+    description.trim()
+      ? description.trim()
+      : null;
+
+  const normalizedUrl =
+    typeof url === "string" && url.trim()
+      ? url.trim()
+      : null;
+
+  const normalizedTechnologies =
+    typeof technologies === "string" &&
+    technologies.trim()
+      ? technologies.trim()
+      : null;
+
+  await prisma.project.update({
+    where: {
+      id: projectId,
+    },
+    data: {
+      name: normalizedName,
+      description: normalizedDescription,
+      url: normalizedUrl,
+      technologies: normalizedTechnologies,
+    },
+  });
+
+  redirect(`/dashboard/resumes/${resumeId}`);
+}
