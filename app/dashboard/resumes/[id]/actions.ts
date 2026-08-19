@@ -83,3 +83,85 @@ export async function updateResumeProfileAction(
 
   redirect(`/dashboard/resumes/${resumeId}`);
 }
+
+export async function createExperienceAction(
+  resumeId: string,
+  formData: FormData
+) {
+  const user = await requireUser();
+
+  const resume = await prisma.resume.findFirst({
+    where: {
+      id: resumeId,
+      userId: user.id,
+    },
+  });
+
+  if (!resume) {
+    throw new Error("Resume not found.");
+  }
+
+  const company = formData.get("company");
+  const position = formData.get("position");
+  const location = formData.get("location");
+  const startDate = formData.get("startDate");
+  const endDate = formData.get("endDate");
+  const current = formData.get("current");
+  const description = formData.get("description");
+
+  if (
+    typeof company !== "string" ||
+    !company.trim()
+  ) {
+    throw new Error("Company is required.");
+  }
+
+  if (
+    typeof position !== "string" ||
+    !position.trim()
+  ) {
+    throw new Error("Position is required.");
+  }
+
+  const normalizedCompany = company.trim();
+  const normalizedPosition = position.trim();
+
+  const normalizedLocation =
+    typeof location === "string" && location.trim()
+      ? location.trim()
+      : null;
+
+  const normalizedStartDate =
+    typeof startDate === "string" && startDate
+      ? new Date(startDate)
+      : null;
+
+  const normalizedEndDate =
+    typeof endDate === "string" && endDate
+      ? new Date(endDate)
+      : null;
+
+  const normalizedCurrent = current === "on";
+
+  const normalizedDescription =
+    typeof description === "string" && description.trim()
+      ? description.trim()
+      : null;
+
+  await prisma.experience.create({
+    data: {
+      resumeId,
+      company: normalizedCompany,
+      position: normalizedPosition,
+      location: normalizedLocation,
+      startDate: normalizedStartDate,
+      endDate: normalizedCurrent
+        ? null
+        : normalizedEndDate,
+      current: normalizedCurrent,
+      description: normalizedDescription,
+    },
+  });
+
+  redirect(`/dashboard/resumes/${resumeId}`);
+}
