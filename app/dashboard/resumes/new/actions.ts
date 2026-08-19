@@ -30,6 +30,10 @@ export async function createResumeAction(formData: FormData) {
       userId: user.id,
       title: normalizedTitle,
       targetPosition: normalizedTargetPosition,
+
+      profile: {
+        create: {},
+      },
     },
   });
 

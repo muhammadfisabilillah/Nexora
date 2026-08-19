@@ -50,7 +50,7 @@ export default async function DashboardPage() {
   {resumes.length === 0 ? (
     <div>
       <p>
-        You haven't created a resume yet.
+        You haven&apos;t created a resume yet.
       </p>
 
       <Link href="/dashboard/resumes/new">
