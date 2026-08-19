@@ -3,7 +3,10 @@ import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "../../../../lib/auth/session";
 import { prisma } from "../../../../lib/prisma";
 import {
+  createEducationAction,
   createExperienceAction,
+  createProjectAction,
+  createSkillAction,
   updateResumeProfileAction,
 } from "./actions";
 
@@ -29,15 +32,31 @@ export default async function ResumePage({
       id,
       userId: user.id,
     },
-    include: {
-      profile: true,
-      experiences: {
-        orderBy: {
+        include: {
+        profile: true,
+        experiences: {
+            orderBy: {
             startDate: "desc",
             },
-      }
+        },
+        education: {
+            orderBy: {
+            startDate: "desc",
+            },
+        },
+        skills: {
+            orderBy: {
+            name: "asc",
+            },
+        },
+        projects: {
+            orderBy: {
+            name: "asc",
+            },
+        },
     },
-  });
+  }
+);
 
   if (!resume) {
     notFound();
@@ -48,6 +67,15 @@ export default async function ResumePage({
 
     const createExperience =
   createExperienceAction.bind(null, resume.id);
+
+    const createEducation =
+  createEducationAction.bind(null, resume.id);
+
+    const createSkill =
+  createSkillAction.bind(null, resume.id);
+
+  const createProject =
+  createProjectAction.bind(null, resume.id);
 
   return (
     <main>
@@ -308,6 +336,319 @@ export default async function ResumePage({
         </button>
     </form>
     </section>
+
+    <section>
+  <h2>Education</h2>
+
+  {resume.education.length === 0 ? (
+    <p>
+      No education added yet.
+    </p>
+  ) : (
+    <div>
+      {resume.education.map((education) => (
+        <article key={education.id}>
+          <h3>{education.institution}</h3>
+
+          <p>
+            {education.degree ?? "Degree not specified"}
+            {education.fieldOfStudy
+              ? ` — ${education.fieldOfStudy}`
+              : ""}
+          </p>
+
+          {education.location && (
+            <p>{education.location}</p>
+          )}
+
+          <p>
+            {education.startDate
+              ? education.startDate.toLocaleDateString()
+              : "Start date not specified"}
+            {" — "}
+            {education.endDate
+              ? education.endDate.toLocaleDateString()
+              : "Present"}
+          </p>
+
+          {education.description && (
+            <p>{education.description}</p>
+          )}
+        </article>
+      ))}
+    </div>
+  )}
+
+  <h3>Add Education</h3>
+
+  <form action={createEducation}>
+    <div>
+      <label htmlFor="institution">
+        Institution
+      </label>
+
+      <input
+        id="institution"
+        name="institution"
+        type="text"
+        placeholder="e.g. Telkom University"
+        required
+      />
+    </div>
+
+    <div>
+      <label htmlFor="degree">
+        Degree
+      </label>
+
+      <input
+        id="degree"
+        name="degree"
+        type="text"
+        placeholder="e.g. Bachelor of Information Systems"
+      />
+    </div>
+
+    <div>
+      <label htmlFor="fieldOfStudy">
+        Field of Study
+      </label>
+
+      <input
+        id="fieldOfStudy"
+        name="fieldOfStudy"
+        type="text"
+        placeholder="e.g. Information Systems"
+      />
+    </div>
+
+    <div>
+      <label htmlFor="location">
+        Location
+      </label>
+
+      <input
+        id="location"
+        name="location"
+        type="text"
+        placeholder="e.g. Bandung, Indonesia"
+      />
+    </div>
+
+    <div>
+      <label htmlFor="startDate">
+        Start Date
+      </label>
+
+      <input
+        id="startDate"
+        name="startDate"
+        type="date"
+      />
+    </div>
+
+    <div>
+      <label htmlFor="endDate">
+        End Date
+      </label>
+
+      <input
+        id="endDate"
+        name="endDate"
+        type="date"
+      />
+    </div>
+
+    <div>
+      <label htmlFor="description">
+        Description
+      </label>
+
+      <textarea
+        id="description"
+        name="description"
+        rows={5}
+        placeholder="Describe your education, achievements, coursework, or activities..."
+      />
+    </div>
+
+    <button type="submit">
+      Add Education
+    </button>
+  </form>
+</section>
+
+  <section>
+  <h2>Skills</h2>
+
+  {resume.skills.length === 0 ? (
+    <p>
+      No skills added yet.
+    </p>
+  ) : (
+    <div>
+      {resume.skills.map((skill) => (
+        <article key={skill.id}>
+          <h3>{skill.name}</h3>
+
+          {skill.level && (
+            <p>
+              Level: {skill.level}
+            </p>
+          )}
+        </article>
+      ))}
+    </div>
+  )}
+
+  <h3>Add Skill</h3>
+
+  <form action={createSkill}>
+    <div>
+      <label htmlFor="name">
+        Skill
+      </label>
+
+      <input
+        id="name"
+        name="name"
+        type="text"
+        placeholder="e.g. TypeScript"
+        required
+      />
+    </div>
+
+    <div>
+      <label htmlFor="level">
+        Level
+      </label>
+
+      <select
+        id="level"
+        name="level"
+        defaultValue=""
+      >
+        <option value="">
+          Select level
+        </option>
+        <option value="Beginner">
+          Beginner
+        </option>
+        <option value="Intermediate">
+          Intermediate
+        </option>
+        <option value="Advanced">
+          Advanced
+        </option>
+      </select>
+    </div>
+
+    <button type="submit">
+      Add Skill
+    </button>
+  </form>
+</section>
+
+<section>
+  <h2>Projects</h2>
+
+  {resume.projects.length === 0 ? (
+    <p>
+      No projects added yet.
+    </p>
+  ) : (
+    <div>
+      {resume.projects.map((project) => (
+        <article key={project.id}>
+          <h3>{project.name}</h3>
+
+          {project.description && (
+            <p>{project.description}</p>
+          )}
+
+          {project.technologies && (
+            <p>
+              Technologies: {project.technologies}
+            </p>
+          )}
+
+          {project.url && (
+            <p>
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Project Link
+              </a>
+            </p>
+          )}
+        </article>
+      ))}
+    </div>
+  )}
+
+  <h3>Add Project</h3>
+
+  <form action={createProject}>
+    <div>
+      <label htmlFor="project-name">
+        Project Name
+      </label>
+
+      <input
+        id="project-name"
+        name="name"
+        type="text"
+        placeholder="e.g. Nexora"
+        required
+      />
+    </div>
+
+    <div>
+      <label htmlFor="project-description">
+        Description
+      </label>
+
+      <textarea
+        id="project-description"
+        name="description"
+        rows={5}
+        placeholder="Describe the project..."
+      />
+    </div>
+
+    <div>
+      <label htmlFor="project-url">
+        Project URL
+      </label>
+
+      <input
+        id="project-url"
+        name="url"
+        type="url"
+        placeholder="https://..."
+      />
+    </div>
+
+    <div>
+      <label htmlFor="project-technologies">
+        Technologies
+      </label>
+
+      <input
+        id="project-technologies"
+        name="technologies"
+        type="text"
+        placeholder="e.g. Next.js, Prisma, PostgreSQL"
+      />
+    </div>
+
+    <button type="submit">
+      Add Project
+    </button>
+  </form>
+</section>
 
     <section>
     <h2>AI Analysis</h2>
