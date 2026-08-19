@@ -353,3 +353,114 @@ export async function createProjectAction(
 
   redirect(`/dashboard/resumes/${resumeId}`);
 }
+
+export async function deleteExperienceAction(
+  resumeId: string,
+  experienceId: string
+) {
+  const user = await requireUser();
+
+  const resume = await prisma.resume.findFirst({
+    where: {
+      id: resumeId,
+      userId: user.id,
+    },
+  });
+
+  if (!resume) {
+    throw new Error("Resume not found.");
+  }
+
+  const experience = await prisma.experience.findFirst({
+    where: {
+      id: experienceId,
+      resumeId,
+    },
+  });
+
+  if (!experience) {
+    throw new Error("Experience not found.");
+  }
+
+  await prisma.experience.delete({
+    where: {
+      id: experienceId,
+    },
+  });
+
+  redirect(`/dashboard/resumes/${resumeId}`);
+}
+
+export async function deleteEducationAction(
+  resumeId: string,
+  educationId: string
+) {
+  const user = await requireUser();
+
+  const resume = await prisma.resume.findFirst({
+    where: {
+      id: resumeId,
+      userId: user.id,
+    },
+  });
+
+  if (!resume) {
+    throw new Error("Resume not found.");
+  }
+
+  const education = await prisma.education.findFirst({
+    where: {
+      id: educationId,
+      resumeId,
+    },
+  });
+
+  if (!education) {
+    throw new Error("Education not found.");
+  }
+
+  await prisma.education.delete({
+    where: {
+      id: educationId,
+    },
+  });
+
+  redirect(`/dashboard/resumes/${resumeId}`);
+}
+
+export async function deleteSkillAction(
+  resumeId: string,
+  skillId: string
+) {
+  const user = await requireUser();
+
+  const resume = await prisma.resume.findFirst({
+    where: {
+      id: resumeId,
+      userId: user.id,
+    },
+  });
+
+  if (!resume) {
+    throw new Error("Resume not found.");
+  }
+
+  const skill = await prisma.skill.findFirst({
+    where: {
+      id: skillId,
+      resumeId,
+    },
+  });
+
+  if (!skill) {
+    throw new Error("Skill not found.");
+  }
+
+  await prisma.skill.delete({
+    where: {
+      id: skillId,
+    },
+  });
+
+  redirect(`/dashboard/resumes/${resumeId}`);
+}

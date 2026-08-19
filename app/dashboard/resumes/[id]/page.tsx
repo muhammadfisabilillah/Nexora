@@ -7,6 +7,9 @@ import {
   createExperienceAction,
   createProjectAction,
   createSkillAction,
+  deleteEducationAction,
+  deleteExperienceAction,
+  deleteSkillAction,
   updateResumeProfileAction,
 } from "./actions";
 
@@ -203,13 +206,21 @@ export default async function ResumePage({
 <section>
   <h2>Experience</h2>
 
-  {resume.experiences.length === 0 ? (
-    <p>
-      No experience added yet.
-    </p>
-  ) : (
-    <div>
-      {resume.experiences.map((experience) => (
+{resume.experiences.length === 0 ? (
+  <p>
+    No experience added yet.
+  </p>
+) : (
+  <div>
+    {resume.experiences.map((experience) => {
+      const deleteExperience =
+        deleteExperienceAction.bind(
+          null,
+          resume.id,
+          experience.id
+        );
+
+      return (
         <article key={experience.id}>
           <h3>{experience.position}</h3>
 
@@ -235,10 +246,17 @@ export default async function ResumePage({
           {experience.description && (
             <p>{experience.description}</p>
           )}
+
+          <form action={deleteExperience}>
+            <button type="submit">
+              Delete
+            </button>
+          </form>
         </article>
-      ))}
-    </div>
-  )}
+      );
+    })}
+  </div>
+)}
 
   <h3>Add Experience</h3>
 
@@ -345,40 +363,54 @@ export default async function ResumePage({
       No education added yet.
     </p>
   ) : (
-    <div>
-      {resume.education.map((education) => (
-        <article key={education.id}>
-          <h3>{education.institution}</h3>
+<div>
+  {resume.education.map((education) => {
+    const deleteEducation =
+      deleteEducationAction.bind(
+        null,
+        resume.id,
+        education.id
+      );
 
-          <p>
-            {education.degree ?? "Degree not specified"}
-            {education.fieldOfStudy
-              ? ` — ${education.fieldOfStudy}`
-              : ""}
-          </p>
+    return (
+      <article key={education.id}>
+        <h3>{education.institution}</h3>
 
-          {education.location && (
-            <p>{education.location}</p>
-          )}
+        <p>
+          {education.degree ?? "Degree not specified"}
+          {education.fieldOfStudy
+            ? ` — ${education.fieldOfStudy}`
+            : ""}
+        </p>
 
-          <p>
-            {education.startDate
-              ? education.startDate.toLocaleDateString()
-              : "Start date not specified"}
-            {" — "}
-            {education.endDate
-              ? education.endDate.toLocaleDateString()
-              : "Present"}
-          </p>
+        {education.location && (
+          <p>{education.location}</p>
+        )}
 
-          {education.description && (
-            <p>{education.description}</p>
-          )}
-        </article>
-      ))}
-    </div>
-  )}
+        <p>
+          {education.startDate
+            ? education.startDate.toLocaleDateString()
+            : "Start date not specified"}
+          {" — "}
+          {education.endDate
+            ? education.endDate.toLocaleDateString()
+            : "Present"}
+        </p>
 
+        {education.description && (
+          <p>{education.description}</p>
+        )}
+
+        <form action={deleteEducation}>
+          <button type="submit">
+            Delete
+          </button>
+        </form>
+      </article>
+    );
+  })}
+</div>
+)}
   <h3>Add Education</h3>
 
   <form action={createEducation}>
@@ -486,20 +518,35 @@ export default async function ResumePage({
       No skills added yet.
     </p>
   ) : (
-    <div>
-      {resume.skills.map((skill) => (
-        <article key={skill.id}>
-          <h3>{skill.name}</h3>
+<div>
+  {resume.skills.map((skill) => {
+    const deleteSkill =
+      deleteSkillAction.bind(
+        null,
+        resume.id,
+        skill.id
+      );
 
-          {skill.level && (
-            <p>
-              Level: {skill.level}
-            </p>
-          )}
-        </article>
-      ))}
-    </div>
-  )}
+    return (
+      <article key={skill.id}>
+        <h3>{skill.name}</h3>
+
+        {skill.level && (
+          <p>
+            Level: {skill.level}
+          </p>
+        )}
+
+        <form action={deleteSkill}>
+          <button type="submit">
+            Delete
+          </button>
+        </form>
+      </article>
+    );
+  })}
+</div>
+)}
 
   <h3>Add Skill</h3>
 
