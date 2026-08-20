@@ -89,7 +89,142 @@ export default function ExperienceSection({
                   </h4>
 
                   <form action={updateExperience} className="space-y-4">
-                    {/* Form Edit Experience kita masukkan berikutnya */}
+                    <div className="space-y-2">
+                      <label
+                        htmlFor={`company-${experience.id}`}
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        Company
+                      </label>
+
+                      <input
+                        id={`company-${experience.id}`}
+                        name="company"
+                        type="text"
+                        defaultValue={experience.company}
+                        required
+                        className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label
+                        htmlFor={`position-${experience.id}`}
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        Position
+                      </label>
+
+                      <input
+                        id={`position-${experience.id}`}
+                        name="position"
+                        type="text"
+                        defaultValue={experience.position}
+                        required
+                        className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label
+                        htmlFor={`location-${experience.id}`}
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        Location
+                      </label>
+
+                      <input
+                        id={`location-${experience.id}`}
+                        name="location"
+                        type="text"
+                        defaultValue={experience.location ?? ""}
+                        className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label
+                        htmlFor={`startDate-${experience.id}`}
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        Start Date
+                      </label>
+
+                      <input
+                        id={`startDate-${experience.id}`}
+                        name="startDate"
+                        type="date"
+                        defaultValue={
+                          experience.startDate
+                            ? experience.startDate.toISOString().slice(0, 10)
+                            : ""
+                        }
+                        className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label
+                        htmlFor={`endDate-${experience.id}`}
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        End Date
+                      </label>
+
+                      <input
+                        id={`endDate-${experience.id}`}
+                        name="endDate"
+                        type="date"
+                        defaultValue={
+                          experience.endDate
+                            ? experience.endDate.toISOString().slice(0, 10)
+                            : ""
+                        }
+                        disabled={experience.current}
+                        className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition disabled:bg-gray-100 disabled:text-gray-500 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-3">
+                      <input
+                        id={`current-${experience.id}`}
+                        name="current"
+                        type="checkbox"
+                        defaultChecked={experience.current}
+                        className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-2 focus:ring-gray-300"
+                      />
+
+                      <label
+                        htmlFor={`current-${experience.id}`}
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        I currently work here
+                      </label>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label
+                        htmlFor={`description-${experience.id}`}
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        Description
+                      </label>
+
+                      <textarea
+                        id={`description-${experience.id}`}
+                        name="description"
+                        rows={6}
+                        defaultValue={experience.description ?? ""}
+                        className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm leading-6 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                    >
+                      Save Changes
+                    </button>
                   </form>
 
                   <form action={deleteExperience}>
