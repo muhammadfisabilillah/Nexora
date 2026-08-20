@@ -603,13 +603,21 @@ return (
     </section>
 
     <section>
-  <h2>Education</h2>
+<h2 className="mb-6 text-2xl font-semibold tracking-tight text-gray-900">
+  Education
+</h2>
 
-  {resume.education.length === 0 ? (
-    <p>
+{resume.education.length === 0 ? (
+  <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 px-6 py-8 text-center">
+    <p className="text-sm font-medium text-gray-700">
       No education added yet.
     </p>
-  ) : (
+
+    <p className="mt-1 text-sm text-gray-500">
+      Add your educational background to strengthen your resume.
+    </p>
+  </div>
+) : (
 <div>
   {resume.education.map((education) => {
     const deleteEducation =
@@ -627,155 +635,192 @@ return (
   );
 
     return (
-      <article key={education.id}>
-        <h3>{education.institution}</h3>
+<article
+  key={education.id}
+  className="mb-4 rounded-xl border border-gray-200 bg-gray-50 p-5 last:mb-0"
+>
+       <h3 className="text-lg font-semibold text-gray-900">
+  {education.institution}
+</h3>
 
-        <p>
-          {education.degree ?? "Degree not specified"}
-          {education.fieldOfStudy
-            ? ` — ${education.fieldOfStudy}`
-            : ""}
-        </p>
+<p className="mt-1 text-sm font-medium text-gray-700">
+  {education.degree ?? "Degree not specified"}
+  {education.fieldOfStudy
+    ? ` — ${education.fieldOfStudy}`
+    : ""}
+</p>
 
-        {education.location && (
-          <p>{education.location}</p>
-        )}
+<p className="mt-2 text-xs text-gray-500">
+  {education.startDate
+    ? education.startDate.toLocaleDateString()
+    : "Start date not specified"}
+  {" — "}
+  {education.endDate
+    ? education.endDate.toLocaleDateString()
+    : "Present"}
+</p>
 
-        <p>
-          {education.startDate
-            ? education.startDate.toLocaleDateString()
-            : "Start date not specified"}
-          {" — "}
-          {education.endDate
-            ? education.endDate.toLocaleDateString()
-            : "Present"}
-        </p>
+{education.description && (
+  <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-gray-600">
+    {education.description}
+  </p>
+)}
 
-        {education.description && (
-          <p>{education.description}</p>
-        )}
+<div className="mt-6 border-t border-gray-200 pt-6">
+  <h4 className="mb-4 text-sm font-semibold text-gray-900">
+    Edit Education
+  </h4>
 
-        <h4>Edit Education</h4>
+  <form action={updateEducation} className="space-y-4">
+<div className="space-y-2">
+  <label
+    htmlFor={`institution-${education.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    Institution
+  </label>
 
-<form action={updateEducation}>
-  <div>
-    <label htmlFor={`institution-${education.id}`}>
-      Institution
-    </label>
+  <input
+    id={`institution-${education.id}`}
+    name="institution"
+    type="text"
+    defaultValue={education.institution}
+    required
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <input
-      id={`institution-${education.id}`}
-      name="institution"
-      type="text"
-      defaultValue={education.institution}
-      required
-    />
-  </div>
+<div className="space-y-2">
+  <label
+    htmlFor={`degree-${education.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    Degree
+  </label>
 
-  <div>
-    <label htmlFor={`degree-${education.id}`}>
-      Degree
-    </label>
+  <input
+    id={`degree-${education.id}`}
+    name="degree"
+    type="text"
+    defaultValue={education.degree ?? ""}
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <input
-      id={`degree-${education.id}`}
-      name="degree"
-      type="text"
-      defaultValue={education.degree ?? ""}
-    />
-  </div>
+<div className="space-y-2">
+  <label
+    htmlFor={`fieldOfStudy-${education.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    Field of Study
+  </label>
 
-  <div>
-    <label htmlFor={`fieldOfStudy-${education.id}`}>
-      Field of Study
-    </label>
+  <input
+    id={`fieldOfStudy-${education.id}`}
+    name="fieldOfStudy"
+    type="text"
+    defaultValue={education.fieldOfStudy ?? ""}
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <input
-      id={`fieldOfStudy-${education.id}`}
-      name="fieldOfStudy"
-      type="text"
-      defaultValue={
-        education.fieldOfStudy ?? ""
-      }
-    />
-  </div>
+<div className="space-y-2">
+  <label
+    htmlFor={`location-${education.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    Location
+  </label>
 
-  <div>
-    <label htmlFor={`location-${education.id}`}>
-      Location
-    </label>
+  <input
+    id={`location-${education.id}`}
+    name="location"
+    type="text"
+    defaultValue={education.location ?? ""}
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <input
-      id={`location-${education.id}`}
-      name="location"
-      type="text"
-      defaultValue={education.location ?? ""}
-    />
-  </div>
+<div className="space-y-2">
+  <label
+    htmlFor={`startDate-${education.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    Start Date
+  </label>
 
-  <div>
-    <label htmlFor={`startDate-${education.id}`}>
-      Start Date
-    </label>
+  <input
+    id={`startDate-${education.id}`}
+    name="startDate"
+    type="date"
+    defaultValue={
+      education.startDate
+        ? education.startDate
+            .toISOString()
+            .slice(0, 10)
+        : ""
+    }
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <input
-      id={`startDate-${education.id}`}
-      name="startDate"
-      type="date"
-      defaultValue={
-        education.startDate
-          ? education.startDate
-              .toISOString()
-              .slice(0, 10)
-          : ""
-      }
-    />
-  </div>
+<div className="space-y-2">
+  <label
+    htmlFor={`endDate-${education.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    End Date
+  </label>
 
-  <div>
-    <label htmlFor={`endDate-${education.id}`}>
-      End Date
-    </label>
+  <input
+    id={`endDate-${education.id}`}
+    name="endDate"
+    type="date"
+    defaultValue={
+      education.endDate
+        ? education.endDate
+            .toISOString()
+            .slice(0, 10)
+        : ""
+    }
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <input
-      id={`endDate-${education.id}`}
-      name="endDate"
-      type="date"
-      defaultValue={
-        education.endDate
-          ? education.endDate
-              .toISOString()
-              .slice(0, 10)
-          : ""
-      }
-    />
-  </div>
+<div className="space-y-2">
+  <label
+    htmlFor={`description-${education.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    Description
+  </label>
 
-  <div>
-    <label htmlFor={`description-${education.id}`}>
-      Description
-    </label>
+  <textarea
+    id={`description-${education.id}`}
+    name="description"
+    rows={6}
+    defaultValue={education.description ?? ""}
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm leading-6 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <textarea
-      id={`description-${education.id}`}
-      name="description"
-      rows={6}
-      defaultValue={
-        education.description ?? ""
-      }
-    />
-  </div>
-
-  <button type="submit">
-    Save Changes
-  </button>
+<button
+  type="submit"
+  className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300"
+>
+  Save Changes
+</button>
 </form>
 
         <form action={deleteEducation}>
-          <button type="submit">
-            Delete
-          </button>
+<button
+  type="submit"
+  className="mt-3 text-sm font-medium text-red-600 transition hover:text-red-700"
+>
+  Delete Education
+</button>
         </form>
+      </div>
       </article>
     );
   })}
@@ -784,110 +829,147 @@ return (
   <h3>Add Education</h3>
 
   <form action={createEducation}>
-    <div>
-      <label htmlFor="institution">
-        Institution
-      </label>
+   <div className="space-y-2">
+  <label
+    htmlFor="institution"
+    className="text-sm font-medium text-gray-700"
+  >
+    Institution
+  </label>
 
-      <input
-        id="institution"
-        name="institution"
-        type="text"
-        placeholder="e.g. Telkom University"
-        required
-      />
-    </div>
+  <input
+    id="institution"
+    name="institution"
+    type="text"
+    placeholder="e.g. Telkom University"
+    required
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <div>
-      <label htmlFor="degree">
-        Degree
-      </label>
+<div className="space-y-2">
+  <label
+    htmlFor="degree"
+    className="text-sm font-medium text-gray-700"
+  >
+    Degree
+  </label>
 
-      <input
-        id="degree"
-        name="degree"
-        type="text"
-        placeholder="e.g. Bachelor of Information Systems"
-      />
-    </div>
+  <input
+    id="degree"
+    name="degree"
+    type="text"
+    placeholder="e.g. Bachelor of Information Systems"
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <div>
-      <label htmlFor="fieldOfStudy">
-        Field of Study
-      </label>
+<div className="space-y-2">
+  <label
+    htmlFor="fieldOfStudy"
+    className="text-sm font-medium text-gray-700"
+  >
+    Field of Study
+  </label>
 
-      <input
-        id="fieldOfStudy"
-        name="fieldOfStudy"
-        type="text"
-        placeholder="e.g. Information Systems"
-      />
-    </div>
+  <input
+    id="fieldOfStudy"
+    name="fieldOfStudy"
+    type="text"
+    placeholder="e.g. Information Systems"
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <div>
-      <label htmlFor="location">
-        Location
-      </label>
+<div className="space-y-2">
+  <label
+    htmlFor="location"
+    className="text-sm font-medium text-gray-700"
+  >
+    Location
+  </label>
 
-      <input
-        id="location"
-        name="location"
-        type="text"
-        placeholder="e.g. Bandung, Indonesia"
-      />
-    </div>
+  <input
+    id="location"
+    name="location"
+    type="text"
+    placeholder="e.g. Bandung, Indonesia"
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <div>
-      <label htmlFor="startDate">
-        Start Date
-      </label>
+<div className="space-y-2">
+  <label
+    htmlFor="startDate"
+    className="text-sm font-medium text-gray-700"
+  >
+    Start Date
+  </label>
 
-      <input
-        id="startDate"
-        name="startDate"
-        type="date"
-      />
-    </div>
+  <input
+    id="startDate"
+    name="startDate"
+    type="date"
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <div>
-      <label htmlFor="endDate">
-        End Date
-      </label>
+<div className="space-y-2">
+  <label
+    htmlFor="endDate"
+    className="text-sm font-medium text-gray-700"
+  >
+    End Date
+  </label>
 
-      <input
-        id="endDate"
-        name="endDate"
-        type="date"
-      />
-    </div>
+  <input
+    id="endDate"
+    name="endDate"
+    type="date"
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <div>
-      <label htmlFor="description">
-        Description
-      </label>
+<div className="space-y-2">
+  <label
+    htmlFor="description"
+    className="text-sm font-medium text-gray-700"
+  >
+    Description
+  </label>
 
-      <textarea
-        id="description"
-        name="description"
-        rows={5}
-        placeholder="Describe your education, achievements, coursework, or activities..."
-      />
-    </div>
+  <textarea
+    id="description"
+    name="description"
+    rows={5}
+    placeholder="Describe your education, achievements, coursework, or activities..."
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm leading-6 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <button type="submit">
-      Add Education
-    </button>
+<button
+  type="submit"
+  className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300"
+>
+  Add Education
+</button>
   </form>
 </section>
 
   <section>
   <h2>Skills</h2>
 
-  {resume.skills.length === 0 ? (
-    <p>
+{resume.skills.length === 0 ? (
+  <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 px-6 py-8 text-center">
+    <p className="text-sm font-medium text-gray-700">
       No skills added yet.
     </p>
-  ) : (
+
+    <p className="mt-1 text-sm text-gray-500">
+      Add your skills to strengthen your resume.
+    </p>
+  </div>
+) : (
 <div>
   {resume.skills.map((skill) => {
     const deleteSkill =
@@ -904,117 +986,161 @@ return (
   );
 
     return (
-      <article key={skill.id}>
-        <h3>{skill.name}</h3>
+<article
+  key={skill.id}
+  className="mb-4 rounded-xl border border-gray-200 bg-gray-50 p-5 last:mb-0"
+>
+  <h3 className="text-lg font-semibold text-gray-900">
+    {skill.name}
+  </h3>
 
-        {skill.level && (
-          <p>
-            Level: {skill.level}
-          </p>
-        )}
-    <h4>Edit Skill</h4>
+  {skill.level && (
+    <p className="mt-1 text-sm text-gray-600">
+      Level: {skill.level}
+    </p>
+  )}
+<div className="mt-6 border-t border-gray-200 pt-6">
+  <h4 className="mb-4 text-sm font-semibold text-gray-900">
+    Edit Skill
+  </h4>
 
-<form action={updateSkill}>
-  <div>
-    <label htmlFor={`skill-name-${skill.id}`}>
-      Skill Name
-    </label>
+  <form action={updateSkill} className="space-y-4">
+  <div className="space-y-2">
+  <label
+    htmlFor={`skill-name-${skill.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    Skill Name
+  </label>
 
-    <input
-      id={`skill-name-${skill.id}`}
-      name="name"
-      type="text"
-      defaultValue={skill.name}
-      required
-    />
-  </div>
+  <input
+    id={`skill-name-${skill.id}`}
+    name="name"
+    type="text"
+    defaultValue={skill.name}
+    required
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-  <div>
-    <label htmlFor={`skill-level-${skill.id}`}>
-      Level
-    </label>
+<div className="space-y-2">
+  <label
+    htmlFor={`skill-level-${skill.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    Level
+  </label>
 
-    <input
-      id={`skill-level-${skill.id}`}
-      name="level"
-      type="text"
-      defaultValue={skill.level ?? ""}
-      placeholder="e.g. Beginner, Intermediate, Advanced"
-    />
-  </div>
+  <input
+    id={`skill-level-${skill.id}`}
+    name="level"
+    type="text"
+    defaultValue={skill.level ?? ""}
+    placeholder="e.g. Beginner, Intermediate, Advanced"
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-  <button type="submit">
-    Save Changes
+<button
+  type="submit"
+  className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300"
+>
+  Save Changes
+</button>
+</form>
+</div>
+
+<form action={deleteSkill}>
+  <button
+    type="submit"
+    className="mt-3 text-sm font-medium text-red-600 transition hover:text-red-700"
+  >
+    Delete Skill
   </button>
 </form>
-
-        <form action={deleteSkill}>
-          <button type="submit">
-            Delete
-          </button>
-        </form>
       </article>
     );
   })}
 </div>
 )}
 
-  <h3>Add Skill</h3>
+<div className="mt-6 border-t border-gray-200 pt-6">
+  <h3 className="mb-4 text-sm font-semibold text-gray-900">
+    Add Skill
+  </h3>
 
-  <form action={createSkill}>
-    <div>
-      <label htmlFor="name">
-        Skill
-      </label>
+  <form action={createSkill} className="space-y-4">
+<div className="space-y-2">
+  <label
+    htmlFor="name"
+    className="text-sm font-medium text-gray-700"
+  >
+    Skill
+  </label>
 
-      <input
-        id="name"
-        name="name"
-        type="text"
-        placeholder="e.g. TypeScript"
-        required
-      />
-    </div>
+  <input
+    id="name"
+    name="name"
+    type="text"
+    placeholder="e.g. TypeScript"
+    required
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <div>
-      <label htmlFor="level">
-        Level
-      </label>
+<div className="space-y-2">
+  <label
+    htmlFor="level"
+    className="text-sm font-medium text-gray-700"
+  >
+    Level
+  </label>
 
-      <select
-        id="level"
-        name="level"
-        defaultValue=""
-      >
-        <option value="">
-          Select level
-        </option>
-        <option value="Beginner">
-          Beginner
-        </option>
-        <option value="Intermediate">
-          Intermediate
-        </option>
-        <option value="Advanced">
-          Advanced
-        </option>
-      </select>
-    </div>
+  <select
+    id="level"
+    name="level"
+    defaultValue=""
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  >
+    <option value="">
+      Select level
+    </option>
+    <option value="Beginner">
+      Beginner
+    </option>
+    <option value="Intermediate">
+      Intermediate
+    </option>
+    <option value="Advanced">
+      Advanced
+    </option>
+  </select>
+</div>
 
-    <button type="submit">
-      Add Skill
-    </button>
+<button
+  type="submit"
+  className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300"
+>
+  Add Skill
+</button>
   </form>
+</div>
 </section>
 
 <section>
   <h2>Projects</h2>
 
-  {resume.projects.length === 0 ? (
-    <p>
+{resume.projects.length === 0 ? (
+  <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 px-6 py-8 text-center">
+    <p className="text-sm font-medium text-gray-700">
       No projects added yet.
     </p>
-  ) : (
+
+    <p className="mt-1 text-sm text-gray-500">
+      Add your projects to showcase your experience and skills.
+    </p>
+  </div>
+) : (
 <div>
   {resume.projects.map((project) => {
     const deleteProject =
@@ -1032,165 +1158,225 @@ const updateProject =
   );
 
     return (
-      <article key={project.id}>
-        <h3>{project.name}</h3>
+ <article
+  key={project.id}
+  className="mb-4 rounded-xl border border-gray-200 bg-gray-50 p-5 last:mb-0"
+>
+  <h3 className="text-lg font-semibold text-gray-900">
+    {project.name}
+  </h3>
 
-        {project.description && (
-          <p>{project.description}</p>
-        )}
+  {project.description && (
+    <p className="mt-2 text-sm leading-6 text-gray-600">
+      {project.description}
+    </p>
+  )}
 
-        {project.technologies && (
-          <p>
-            Technologies: {project.technologies}
-          </p>
-        )}
+  {project.technologies && (
+    <p className="mt-2 text-sm text-gray-600">
+      <span className="font-medium text-gray-700">
+        Technologies:
+      </span>{" "}
+      {project.technologies}
+    </p>
+  )}
 
-        {project.url && (
-          <p>
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Project Link
-            </a>
-          </p>
-        )}
+  {project.url && (
+    <p className="mt-2">
+      <a
+        href={project.url}
+        target="_blank"
+        rel="noreferrer"
+        className="text-sm font-medium text-gray-900 underline underline-offset-4 transition hover:text-gray-600"
+      >
+        Project Link
+      </a>
+    </p>
+  )}
 
-        <h4>Edit Project</h4>
+<div className="mt-6 border-t border-gray-200 pt-6">
+  <h4 className="mb-4 text-sm font-semibold text-gray-900">
+    Edit Project
+  </h4>
 
-<form action={updateProject}>
-  <div>
-    <label htmlFor={`project-name-${project.id}`}>
-      Project Name
-    </label>
+  <form action={updateProject} className="space-y-4">
+ <div className="space-y-2">
+  <label
+    htmlFor={`project-name-${project.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    Project Name
+  </label>
 
-    <input
-      id={`project-name-${project.id}`}
-      name="name"
-      type="text"
-      defaultValue={project.name}
-      required
-    />
-  </div>
+  <input
+    id={`project-name-${project.id}`}
+    name="name"
+    type="text"
+    defaultValue={project.name}
+    required
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-  <div>
-    <label htmlFor={`project-description-${project.id}`}>
-      Description
-    </label>
+<div className="space-y-2">
+  <label
+    htmlFor={`project-description-${project.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    Description
+  </label>
 
-    <textarea
-      id={`project-description-${project.id}`}
-      name="description"
-      rows={5}
-      defaultValue={project.description ?? ""}
-    />
-  </div>
+  <textarea
+    id={`project-description-${project.id}`}
+    name="description"
+    rows={5}
+    defaultValue={project.description ?? ""}
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm leading-6 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-  <div>
-    <label htmlFor={`project-url-${project.id}`}>
-      Project URL
-    </label>
+<div className="space-y-2">
+  <label
+    htmlFor={`project-url-${project.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    Project URL
+  </label>
 
-    <input
-      id={`project-url-${project.id}`}
-      name="url"
-      type="url"
-      defaultValue={project.url ?? ""}
-    />
-  </div>
+  <input
+    id={`project-url-${project.id}`}
+    name="url"
+    type="url"
+    defaultValue={project.url ?? ""}
+    placeholder="https://example.com"
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-  <div>
-    <label htmlFor={`project-technologies-${project.id}`}>
-      Technologies
-    </label>
+<div className="space-y-2">
+  <label
+    htmlFor={`project-technologies-${project.id}`}
+    className="text-sm font-medium text-gray-700"
+  >
+    Technologies
+  </label>
 
-    <input
-      id={`project-technologies-${project.id}`}
-      name="technologies"
-      type="text"
-      defaultValue={
-        project.technologies ?? ""
-      }
-    />
-  </div>
+  <input
+    id={`project-technologies-${project.id}`}
+    name="technologies"
+    type="text"
+    defaultValue={project.technologies ?? ""}
+    placeholder="e.g. Next.js, Prisma, PostgreSQL"
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-  <button type="submit">
-    Save Changes
+<button
+  type="submit"
+  className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300"
+>
+  Save Changes
+</button>
+</form>
+</div>
+
+<form action={deleteProject}>
+  <button
+    type="submit"
+    className="mt-3 text-sm font-medium text-red-600 transition hover:text-red-700"
+  >
+    Delete Project
   </button>
 </form>
-
-        <form action={deleteProject}>
-          <button type="submit">
-            Delete
-          </button>
-        </form>
       </article>
     );
   })}
 </div>
 )}
 
-  <h3>Add Project</h3>
+<div className="mt-6 border-t border-gray-200 pt-6">
+  <h3 className="mb-4 text-sm font-semibold text-gray-900">
+    Add Project
+  </h3>
 
-  <form action={createProject}>
-    <div>
-      <label htmlFor="project-name">
-        Project Name
-      </label>
+  <form action={createProject} className="space-y-4">
+<div className="space-y-2">
+  <label
+    htmlFor="project-name"
+    className="text-sm font-medium text-gray-700"
+  >
+    Project Name
+  </label>
 
-      <input
-        id="project-name"
-        name="name"
-        type="text"
-        placeholder="e.g. Nexora"
-        required
-      />
-    </div>
+  <input
+    id="project-name"
+    name="name"
+    type="text"
+    placeholder="e.g. Nexora"
+    required
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <div>
-      <label htmlFor="project-description">
-        Description
-      </label>
+<div className="space-y-2">
+  <label
+    htmlFor="project-description"
+    className="text-sm font-medium text-gray-700"
+  >
+    Description
+  </label>
 
-      <textarea
-        id="project-description"
-        name="description"
-        rows={5}
-        placeholder="Describe the project..."
-      />
-    </div>
+  <textarea
+    id="project-description"
+    name="description"
+    rows={5}
+    placeholder="Describe the project..."
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm leading-6 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <div>
-      <label htmlFor="project-url">
-        Project URL
-      </label>
+<div className="space-y-2">
+  <label
+    htmlFor="project-url"
+    className="text-sm font-medium text-gray-700"
+  >
+    Project URL
+  </label>
 
-      <input
-        id="project-url"
-        name="url"
-        type="url"
-        placeholder="https://..."
-      />
-    </div>
+  <input
+    id="project-url"
+    name="url"
+    type="url"
+    placeholder="https://..."
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <div>
-      <label htmlFor="project-technologies">
-        Technologies
-      </label>
+<div className="space-y-2">
+  <label
+    htmlFor="project-technologies"
+    className="text-sm font-medium text-gray-700"
+  >
+    Technologies
+  </label>
 
-      <input
-        id="project-technologies"
-        name="technologies"
-        type="text"
-        placeholder="e.g. Next.js, Prisma, PostgreSQL"
-      />
-    </div>
+  <input
+    id="project-technologies"
+    name="technologies"
+    type="text"
+    placeholder="e.g. Next.js, Prisma, PostgreSQL"
+    className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-gray-500 focus:ring-2 focus:ring-gray-200"
+  />
+</div>
 
-    <button type="submit">
-      Add Project
-    </button>
+<button
+  type="submit"
+  className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-300"
+>
+  Add Project
+</button>
   </form>
+</div>
 </section>
 
     <section>
