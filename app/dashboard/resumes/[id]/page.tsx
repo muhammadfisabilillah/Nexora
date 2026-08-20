@@ -83,12 +83,19 @@ export default async function ResumePage({ params }: ResumePageProps) {
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-        <header className="mb-8">
+        <header className="mb-8 flex items-center justify-between">
           <Link
             href="/dashboard"
             className="inline-flex items-center text-sm font-medium text-gray-600 transition hover:text-gray-900"
           >
             ← Back to Dashboard
+          </Link>
+
+          <Link
+            href={`/dashboard/resumes/${resume.id}/preview`}
+            className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800"
+          >
+            Preview
           </Link>
         </header>
 
