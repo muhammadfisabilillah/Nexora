@@ -116,25 +116,24 @@ export default async function ResumePage({ params }: ResumePageProps) {
           </div>
         </section>
 
-<ResumeProfileSection
-  profile={resume.profile}
-  updateProfile={updateProfile}
-/>
+        <ResumeProfileSection
+          profile={resume.profile}
+          updateProfile={updateProfile}
+        />
 
-<ExperienceSection
-  experiences={resume.experiences}
-  resumeId={resume.id}
-  createExperience={createExperience}
-/>
+        <ExperienceSection
+          experiences={resume.experiences}
+          resumeId={resume.id}
+          createExperience={createExperience}
+        />
 
-<EducationSection
-  education={resume.education}
-  resumeId={resume.id}
-  createEducation={createEducation}
-  deleteEducationAction={deleteEducationAction}
-  updateEducationAction={updateEducationAction}
-/>
-
+        <EducationSection
+          education={resume.education}
+          resumeId={resume.id}
+          createEducation={createEducation}
+          deleteEducationAction={deleteEducationAction}
+          updateEducationAction={updateEducationAction}
+        />
 
         <SkillsSection
           skills={resume.skills}
@@ -144,7 +143,6 @@ export default async function ResumePage({ params }: ResumePageProps) {
           updateSkillAction={updateSkillAction}
         />
 
-
         <ProjectsSection
           projects={resume.projects}
           resumeId={resume.id}
@@ -152,7 +150,6 @@ export default async function ResumePage({ params }: ResumePageProps) {
           deleteProjectAction={deleteProjectAction}
           updateProjectAction={updateProjectAction}
         />
-
 
         <section>
           <h2>AI Analysis</h2>
