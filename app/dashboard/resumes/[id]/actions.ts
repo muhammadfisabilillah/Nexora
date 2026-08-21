@@ -838,5 +838,20 @@ export async function analyzeResumeAction(resumeId: string) {
 
   const input = await getResumeAIInput(resumeId);
 
-  return analyzeResumeWithAI(input);
+  const analysis = await analyzeResumeWithAI(input);
+
+  await prisma.resumeAIAnalysis.create({
+    data: {
+      resumeId,
+      overallScore: analysis.overallScore,
+      targetPositionFit: analysis.targetPositionFit,
+      strengths: analysis.strengths,
+      weaknesses: analysis.weaknesses,
+      skillsGap: analysis.skillsGap,
+      experienceFeedback: analysis.experienceFeedback,
+      improvementSuggestions: analysis.improvementSuggestions,
+    },
+  });
+
+  return analysis;
 }

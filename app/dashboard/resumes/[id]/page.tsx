@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "../../../../lib/auth/session";
 import { prisma } from "../../../../lib/prisma";
+import { resumeAIOutputSchema } from "../../../../lib/ai/schemas";
 import {
   createEducationAction,
   createExperienceAction,
@@ -64,12 +65,31 @@ export default async function ResumePage({ params }: ResumePageProps) {
           name: "asc",
         },
       },
+      aiAnalyses: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+      },
     },
   });
 
   if (!resume) {
     notFound();
   }
+
+  const latestAIAnalysis = resume.aiAnalyses[0]
+  ? resumeAIOutputSchema.parse({
+      overallScore: resume.aiAnalyses[0].overallScore,
+      targetPositionFit: resume.aiAnalyses[0].targetPositionFit,
+      strengths: resume.aiAnalyses[0].strengths,
+      weaknesses: resume.aiAnalyses[0].weaknesses,
+      skillsGap: resume.aiAnalyses[0].skillsGap,
+      experienceFeedback: resume.aiAnalyses[0].experienceFeedback,
+      improvementSuggestions:
+        resume.aiAnalyses[0].improvementSuggestions,
+    })
+  : null;
 
   const updateProfile = updateResumeProfileAction.bind(null, resume.id);
 
@@ -152,7 +172,10 @@ export default async function ResumePage({ params }: ResumePageProps) {
           updateProjectAction={updateProjectAction}
         />
 
-<AIAnalysisSection resumeId={resume.id} />
+        <AIAnalysisSection
+          resumeId={resume.id}
+          initialAnalysis={latestAIAnalysis}
+        />
       </div>
     </main>
   );

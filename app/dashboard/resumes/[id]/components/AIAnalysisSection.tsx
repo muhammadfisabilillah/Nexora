@@ -6,12 +6,15 @@ import { analyzeResumeAction } from "../actions";
 
 type AIAnalysisSectionProps = {
   resumeId: string;
+  initialAnalysis: ResumeAIOutput | null;
 };
 
 export default function AIAnalysisSection({
   resumeId,
+  initialAnalysis,
 }: AIAnalysisSectionProps) {
-  const [result, setResult] = useState<ResumeAIOutput | null>(null);
+  const [result, setResult] =
+    useState<ResumeAIOutput | null>(initialAnalysis);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
