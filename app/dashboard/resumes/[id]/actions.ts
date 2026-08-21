@@ -3,6 +3,8 @@
 import { redirect } from "next/navigation";
 import { prisma } from "../../../../lib/prisma";
 import { requireUser } from "../../../../lib/auth/session";
+import { getResumeAIInput } from "../../../../lib/ai/resume";
+import { analyzeResumeWithAI } from "../../../../lib/ai/service";
 
 export async function updateResumeProfileAction(
   resumeId: string,
@@ -829,4 +831,12 @@ export async function updateProjectAction(
   });
 
   redirect(`/dashboard/resumes/${resumeId}`);
+}
+
+export async function analyzeResumeAction(resumeId: string) {
+  await requireUser();
+
+  const input = await getResumeAIInput(resumeId);
+
+  return analyzeResumeWithAI(input);
 }

@@ -20,6 +20,7 @@ import ExperienceSection from "./components/ExperienceSection";
 import EducationSection from "./components/EducationSection";
 import SkillsSection from "./components/SkillsSection";
 import ProjectsSection from "./components/ProjectsSection";
+import AIAnalysisSection from "./components/AIAnalysisSection";
 
 type ResumePageProps = {
   params: Promise<{
@@ -151,11 +152,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
           updateProjectAction={updateProjectAction}
         />
 
-        <section>
-          <h2>AI Analysis</h2>
-
-          <p>AI-powered resume analysis will be implemented here.</p>
-        </section>
+<AIAnalysisSection resumeId={resume.id} />
       </div>
     </main>
   );

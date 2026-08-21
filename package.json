@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@google/genai": "^2.18.0",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "argon2": "^0.45.1",
@@ -16,7 +17,8 @@
     "pg": "^8.23.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "resend": "^6.20.0"
+    "resend": "^6.20.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
