@@ -30,7 +30,7 @@ export default function EducationSection({
   updateEducationAction,
 }: EducationSectionProps) {
   return (
-    <section>
+    <section className="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
       <h2 className="mb-6 text-2xl font-semibold tracking-tight text-gray-900">
         Education
       </h2>
